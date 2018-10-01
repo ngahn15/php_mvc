@@ -1,0 +1,16 @@
+{
+    "name": "hoang/blog_mvc",
+    "description": "mvc",
+    "type": "php",
+    "require": {
+        "php": "^7.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Controllers\\": "Controllers/",
+            "Models\\": "Models/",
+            "Views\\": "Views/",
+            "Apps\\": "Apps/"
+        }
+    }
+}
