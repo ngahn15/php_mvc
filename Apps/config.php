@@ -8,6 +8,8 @@
     // App Root
     define('APPROOT', dirname(dirname(__FILE__)));
 
+    // Root
+    define('ROOT', 'http://localhost/PHP/test_1/');
     // URL ROOT
     define("URLROOT", "http://localhost/PHP/test_1/index.php");
 

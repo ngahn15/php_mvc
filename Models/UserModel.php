@@ -1,6 +1,5 @@
 <?php
     namespace Models;
-    // require_once 'Apps/db.php';
     class UserModel
     {
         private $table = 'users';
@@ -15,13 +14,12 @@
         {
             $sql = "SELECT * FROM $this->table";
             $this->db->query($sql);
-            // return ($this->db->resultArray());        
-                print_r( $this->db->resultArray());
+            return ($this->db->resultArray());        
         }
 
         public function register($data)
         {
-            $sql = "INSERT INTO $this->table(username,password,name,creatdate) values ('$data[username]','$data[password]','$data[name]','$data[date]') ";
+            $sql = "INSERT INTO $this->table(username,password,name,level,creatdate) values ('$data[username]','$data[password]','$data[name]','$data[level]','$data[date]') ";
             $this->db->query($sql);
 
             if($this->db->execute()){
@@ -31,15 +29,15 @@
             }
         }
 
-        public function login($data)
+        public function login($username,$password)
         {
-            $data['password'] = md5($data['password']);
-            $sql = "SELECT * FROM $this->table WHERE username = '$data[username]' AND password = '$data[password]' ";
-            // echo $sql;
+            $sql = "SELECT * FROM $this->table WHERE username = '$username'";
+            
             $this->db->query($sql);
-
-            if ($this->db->countRow() > 0) {
-                return true;
+            $user = $this->db->resultSingle();
+            $password = md5($password);
+            if (strcmp($password,$user['password']) == 0) {
+                return $user;
             } else {
                 return false;
             }

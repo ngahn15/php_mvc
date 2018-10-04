@@ -41,15 +41,15 @@
         }
 
         // return single
-        // public function resultSingle()
-        // {
-        //     $this->execute();
+        public function resultSingle()
+        {
+            $this->execute();
 
-        //     $this->stmt->setFetchMode(\PDO::FETCH_ASSOC);
-        //     $data = $this->stmt->fetchAll();
+            $this->stmt->setFetchMode(\PDO::FETCH_ASSOC);
+            $data = $this->stmt->fetch();
 
-        //     return $data;
-        // }
+            return $data;
+        }
 
         public function countRow()
         {
@@ -57,23 +57,9 @@
             return $this->stmt->rowCount();
         }
 
-        // public function getALl()
-        // {
-        //     if (!empty($this->table)) {
-        //         $data = [];
-        //         $sql = "SELECT * FROM $this->table ";
-
-        //         $stmt = $this->conn->prepare($sql);
-        //         $stmt->execute();
-
-        //         $stmt->setFetchMode(\PDO::FETCH_ASSOC);
-        //         $data = $stmt->fetchAll();
-
-        //         return $data;
-        //         // print_r($data);
-        //     }
-        // }
+        public function lastInsertId()
+        {
+            return $this->conn->lastInsertId();
+        }
     }
-// $db = new DB();
-// print_r($db::conn);
 ?>

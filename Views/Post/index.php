@@ -13,13 +13,13 @@
                             <div class="text-left">
                                 <div class="row">
                                     <div class="col-sm-9">
-                                        <a href="">
+                                        <a href="<?= URLROOT ?>?url=post/show/<?= $value['id'] ?>">
                                             <h3 class="pull-left"><?= $value['title'] ?></h3>
                                         </a>
                                     </div>
                                     <div class="col-sm-3">
                                         <h4 class="pull-right">
-                                        <small><em><?= $value['time'] ?></em></small>
+                                            <small><em><?= $value['time'] ?></em></small>
                                         </h4>
                                     </div>
                                 </div>
@@ -28,17 +28,23 @@
                         
                     <div class="panel-body">
                         <?= $value['content'] ?> <br>
-                        <a href="#">Read more</a> <br>
+                        <a href="<?= URLROOT ?>?url=post/show/<?= $value['id'] ?>">Read more</a> <br>
+
+                    <?php    if(isset($_SESSION['level']) && $_SESSION['level'] == 0){ ?>
+                        <a href="<?= URLROOT ?>?url=post/edit/<?= $value['id'] ?>" class="btn btn-primary a-btn-slide-text pull-right ml-5">
+                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                            <span><strong>Edit</strong></span>            
+                        </a>
+                        <a href="<?= URLROOT ?>?url=post/delete/<?= $value['id'] ?>" class="btn btn-primary a-btn-slide-text pull-right">
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                            <span><strong>Delete</strong></span>            
+                        </a>
+                    <?php    }   ?>
+                        
                     </div>
-                    
-                    <!-- <div class="panel-footer">
-                        <span class="label label-default">Welcome</span> <span class="label label-default">Updates</span> <span class="label label-default">July</span>
-                    </div> -->
                 </div>
-    <?php 
-    } ?>
+    <?php } ?>
             </div>
-            <!-- <div class="text-center"><a href="#" id="loadmore" class="btn btn-primary">Older Posts...</a></div> -->
         </div>
     </div>
 

@@ -7,41 +7,97 @@
         public function __construct()
         {
             $this->postModel = $this->model("PostModel");
-            // print_r($this->postModel->getPost());
         }
 
         public function index()
         {
-            // print_r($this->postModel->getPost());
-
             $data = $this->postModel->getPost();
             $this->view('Post/index',$data);
         }
 
-        public function about()
+        public function show($id)
         {
-            $this->view('Post/about');
+            $data = $this->postModel->getPostByID($id);
+            $this->view('Post/show',$data);
         }
 
-        public function add($id)
+        public function add()
         {
-            echo "<br>" . $id;
+            $data = [];
+            if (($_SERVER['REQUEST_METHOD'] == 'POST')) {
+                // check Title
+                if (!empty($_POST['title']) || trim($_POST['title']) != null) {
+                    $data['title'] = $_POST['title'];
+                } else {
+                    $data['title_err'] = 'Input Title';
+                }
+
+                // check Content
+                if (!empty($_POST['content']) || trim($_POST['content']) != null) {
+                    $data['content'] = $_POST['content'];
+                } else {
+                    $data['content_err'] = 'Input content';
+                }
+
+                if (empty($data['title_err']) && empty($data['content_err'])) {
+                    $time = new \DateTime();
+                    $data['time'] = $time->format('Y-m-d H:i:s');
+                    $data['id'] = $this->postModel->addPost($data);
+                    if($data['id']){
+                        header("Location:" . URLROOT . "?url=post/show/" . $data['id']);
+                    }else{
+                        $this->view("Post/add", $data);
+                    }
+                } else {
+                    $this->view("Post/add", $data);
+                }
+                
+                
+            } else {
+                $this->view("Post/add",$data);
+            }
         }
 
-        // public function getPost()
-        // {
-        //     // $post_M = new \Models\PostModel();
-        //     $post_M = $this->model("PostModel");
-        //     $data = $post_M->getPost();
-        //     if($data){
-        //         // require_once 'Views/PostView.php';
-        //         // $post_V = new \Views\PostView();
-        //         $post_V = $this->view("PostView",$data);
+        public function edit($id)
+        {
+            $data = $this->postModel->getPostByID($id);
+            if (($_SERVER['REQUEST_METHOD'] == 'POST')) {
+                    // check Title
+                if (!empty($_POST['title']) || trim($_POST['title']) != null) {
+                    $data['title'] = $_POST['title'];
+                } else {
+                    $data['title_err'] = 'Input Title';
+                }
 
-        //         // $post_V->showAllPost($data);
-        //     }
-        // }
+                    // check Content
+                if (!empty($_POST['content']) || trim($_POST['content']) != null) {
+                    $data['content'] = $_POST['content'];
+                } else {
+                    $data['content_err'] = 'Input content';
+                }
 
+                if (empty($data['title_err']) && empty($data['content_err'])) {
+                    $time = new \DateTime();
+                    $data['time'] = $time->format('Y-m-d H:i:s');
+                    if ($this->postModel->editPost($data)) {
+                        header("Location:" . URLROOT . "?url=post/show/" . $data['id']);
+                    } else {
+                        $this->view("Post/edit", $data);
+                    }
+                } else {
+                    $this->view("Post/edit", $data);
+                }
+            } else {
+                $this->view("Post/edit", $data);
+            }
+        }
+
+        public function delete($id)
+        {
+            if($this->postModel->deletePost($id)){
+                header("Location:" . URLROOT);
+            }
+        }
     }
 
 
